@@ -6,7 +6,7 @@
 % {josemari, jcivera}@unizar.es, ajd@doc.ic.ac.uk
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ X_km1_k, P_km1_k ] = prediction( X_k, P_k, featuresInfo, delta_t, SD_A_component_filter, SD_alpha_component_filter )
+function [ X_km1_k, P_km1_k ] = prediction( X_k, P_k, featuresInfo, delta_t, SD_A_component_filter, SD_alpha_component_filter, sigma_ObjectAlphaNoise )
 % Prediction step
 
 % Camera motion prediction
@@ -30,7 +30,7 @@ Qt=sparse(numel(X_k)-13,numel(X_k)-13);
 for i=1:numel(featuresInfo)
 	if featuresInfo(i).estType ~= 's'
 		index = 9*(i-1);
-		Qt(index+7:index+9,index+7:index+9) = eye(3)*(1*delta_t)^2; % set the acceleration be 1 m/s^2
+		Qt(index+7:index+9,index+7:index+9) = eye(3)*(sigma_ObjectAlphaNoise*delta_t)^2; % set the acceleration be sigma_ObjectAlphaNoise m/s^2
 	end
 end
 

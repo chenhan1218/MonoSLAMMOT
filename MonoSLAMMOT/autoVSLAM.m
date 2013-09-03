@@ -39,7 +39,7 @@ while 1
 	fprintf(1,'image %6d		step %6d\n', handles.frame_idx, handles.step);
 	
 	[ handles.x_k_k, handles.p_k_k, handles.h_all, handles.S, handles.z_all ] = EKFstep( handles.x_k_k, handles.p_k_k, handles.featuresInfo, ...
-	handles.frame_idx, handles.step_deltat, handles.cam, handles.sigma_aNoise, handles.sigma_alphaNoise, handles.sigma_imageNoise, ...
+	handles.frame_idx, handles.step_deltat, handles.cam, handles.sigma_aNoise, handles.sigma_alphaNoise, handles.sigma_imageNoise, handles.sigma_ObjectAlphaNoise, ...
 	handles.chi2inv_table, handles.static_container, handles.moving_container );
 
 	for i=1:numel(handles.featuresInfo)
@@ -51,13 +51,13 @@ while 1
 		handles.p_k_k, handles.featuresInfo, handles.h_all, handles.z_all, handles.detection );
 	
 	[handles.x_k_k, handles.p_k_k, handles.featuresInfo, handles.detection ] = detection( handles.outputFile, handles.x_k_k, ...
-		handles.p_k_k, handles.featuresInfo, handles.frame_idx, handles.detection );
+		handles.p_k_k, handles.featuresInfo, handles.frame_idx, handles.detection, handles.v_pdf_threshold );
 	
 	handles = initNewUnknownFeatures( handles );
 	%[handles.local_x_k_k, handles.local_p_k_k,
 	%handles.local_featuresInfo]=extractLocalEKF(handles,handles.z_all);
 	
-	outputTrackingPar(handles.x_k_k, handles.p_k_k, handles.featuresInfo, handles.z_all, handles.outputFile, handles.frame_idx, handles.cam_container, handles.static_container, handles.moving_container );
+	%outputTrackingPar(handles.x_k_k, handles.p_k_k, handles.featuresInfo, handles.z_all, handles.outputFile, handles.frame_idx, handles.cam_container, handles.static_container, handles.moving_container );
 	
 	% save camera location
 	handles.camHistory(:,end+1) = [handles.x_k_k(1:7)];

@@ -7,36 +7,26 @@ title('Pred&Matched:Red. Pred&NOTMatched:Cian. Match:Green');
 
 numFeatures = size(h_all,1);
 for i=1:numFeatures
-	if featuresInfo(i).type=='m'
-	end
 	if isequal(z_all(i,:),[-1 -1])==0
 		plot( [ h_all(i,1) z_all(i,1) ], [ h_all(i,2) z_all(i,2) ], 'w-' );
-		if featuresInfo(i).estType == 's'
-			plot( z_all(i,1), z_all(i,2), '+c', 'MarkerSize', 2);
-			plotUncertainEllip2D( S(1:2,1:2), h_all(i,:), chi2inv, 'b');
-		elseif featuresInfo(i).estType == 'm'
-			plot( z_all(i,1), z_all(i,2), '+m', 'MarkerSize', 2);
-			plotUncertainEllip2D( S(1:2,1:2), h_all(i,:), chi2inv, 'r');
-		else
-			plot( z_all(i,1), z_all(i,2), '+m', 'MarkerSize', 2);
-			plotUncertainEllip2D( S(1:2,1:2), h_all(i,:), chi2inv, 'g');
-		end
+		plot( z_all(i,1), z_all(i,2), 's', 'MarkerSize', 7,'MarkerFaceColor','b');
 	end
 	
 	if h_all(i,:) ~= [-1 -1]
 		if isequal(z_all(i,:),[-1 -1])==1
-			plotUncertainEllip2D( S(1:2,1:2), h_all(i,:), chi2inv, color2);
-			text( h_all(i,1)+4, h_all(i,2), sprintf( '%d', featuresInfo(i).pointIndex ), 'color', 'c', 'FontSize', 13 );
+			color='c';
 		elseif featuresInfo(i).estType=='s'
-			plot( h_all(i,1), h_all(i,2), 'o', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'b', 'MarkerSize', 3);
-			text( h_all(i,1)+4, h_all(i,2), sprintf( '%d', featuresInfo(i).pointIndex ), 'color', 'b', 'FontSize', 13 );
+			color='b';
 		elseif featuresInfo(i).estType=='m'
-			plot( h_all(i,1), h_all(i,2), 'o', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'r', 'MarkerSize', 3);
-			text( h_all(i,1)+4, h_all(i,2), sprintf( '%d', featuresInfo(i).pointIndex ), 'color', 'r', 'FontSize', 13 );
+			color='r';
 		else
-			plot( h_all(i,1), h_all(i,2), 'o', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'g', 'MarkerSize', 3);
-			text( h_all(i,1)+4, h_all(i,2), sprintf( '%d', featuresInfo(i).pointIndex ), 'color', 'g', 'FontSize', 13 );
+			color='g';
 		end
+		
+		plotUncertainEllip2D( S(1:2,1:2), h_all(i,:), chi2inv, color);
+		plot( h_all(i,1), h_all(i,2), 'o', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', color, 'MarkerSize', 3);
+		text( h_all(i,1)+4, h_all(i,2), sprintf( '%d', featuresInfo(i).pointIndex ), 'color', color, 'FontSize', 13 );
+		
 		S = S(3:end,3:end);
 	end
 end

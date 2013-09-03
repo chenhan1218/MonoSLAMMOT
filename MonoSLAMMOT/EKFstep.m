@@ -1,5 +1,5 @@
 function [ x_k_k, p_k_k, h_all, S, z_all ] = EKFstep( x_k_k, p_k_k, featuresInfo, ...
-	frame_idx, deltat, cam, sigma_aNoise, sigma_alphaNoise, sigma_imageNoise, ...
+	frame_idx, deltat, cam, sigma_aNoise, sigma_alphaNoise, sigma_imageNoise, sigma_ObjectAlphaNoise, ...
 	chi2inv_table, static_container, moving_container )
 %EKFSTEP Summary of this function goes here
 % Detailed explanation goes here
@@ -7,7 +7,7 @@ function [ x_k_k, p_k_k, h_all, S, z_all ] = EKFstep( x_k_k, p_k_k, featuresInfo
 % Monocular EKF step
 
 % prediction
-[ x_km1_k, p_km1_k ] = prediction( x_k_k, p_k_k, featuresInfo, deltat, sigma_aNoise, sigma_alphaNoise );
+[ x_km1_k, p_km1_k ] = prediction( x_k_k, p_k_k, featuresInfo, deltat, sigma_aNoise, sigma_alphaNoise, sigma_ObjectAlphaNoise );
 
 % measurements prediction
 [ h_all, H_predicted, S ] = measurements_prediction( x_km1_k, p_km1_k, sigma_imageNoise, cam );

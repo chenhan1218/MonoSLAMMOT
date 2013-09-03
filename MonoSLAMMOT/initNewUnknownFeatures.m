@@ -14,6 +14,8 @@ cam = handles.cam;
 lambdaInit = handles.lambdaInit;
 std_lambda = handles.std_lambda;
 sigma_imageNoise = handles.sigma_imageNoise;
+sigma_ObjectVelNoise = handles.sigma_ObjectVelNoise ;
+
 featuresInfo = handles.featuresInfo;
 tracked_points = handles.tracked_points;
 
@@ -28,7 +30,7 @@ for i=1:size(static_container,2)
 		newFeature = hinv( pos, Xv, cam, lambdaInit );
 		x_k_k = [ x_k_k; newFeature; 0 ;0 ;0 ];
 		p_k_k = addAFeatureCov_newPar( p_k_k, pos, Xv, lambdaInit, sigma_imageNoise, std_lambda, cam );
-		p_k_k(end+1:end+3,end+1:end+3)=eye(3)*1 ;
+		p_k_k(end+1:end+3,end+1:end+3)=eye(3)*sigma_ObjectVelNoise^2 ;
 		
 		featuresInfo(end+1).type = 's';
 		featuresInfo(end).estType = 'u';
@@ -53,7 +55,7 @@ for i=1:size(moving_container,2)
 		newFeature = hinv( pos, Xv, cam, lambdaInit );
 		x_k_k = [ x_k_k; newFeature; 0 ;0 ;0 ];
 		p_k_k = addAFeatureCov_newPar( p_k_k, pos, Xv, lambdaInit, sigma_imageNoise, std_lambda, cam );
-		p_k_k(end+1:end+3,end+1:end+3)=eye(3)*1 ;
+		p_k_k(end+1:end+3,end+1:end+3)=eye(3)*sigma_ObjectVelNoise^2 ;
 		
 		featuresInfo(end+1).type = 'm';
 		featuresInfo(end).estType = 'u';

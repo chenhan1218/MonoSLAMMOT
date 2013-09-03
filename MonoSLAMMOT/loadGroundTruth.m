@@ -41,7 +41,7 @@ while 1
 %         static.frame = [];
 %         static.projection = [];
         while ~isempty(str) && ischar(str)
-            num = sscanf( str, '%d, (%d, %d)' );
+            num = sscanf( str, '%d, (%f, %f)' );
             static_container(end).frame(end+1) = num(1);
             static_container(end).projection(:,end+1) = num(2:3);
             str = fgetl(file);
@@ -59,7 +59,7 @@ while 1
 %         moving.position = [];
 %         moving.projection = [];
         while ~isempty(str) && ischar(str)
-            num = sscanf( str, '%d, (%f, %f, %f), (%d, %d)' );
+            num = sscanf( str, '%d, (%f, %f, %f), (%f, %f)' );
             moving_container(end).frame(end+1) = num(1);
             moving_container(end).position(:,end+1) = num(2:4);
             moving_container(end).projection(:,end+1) = num(5:6);
